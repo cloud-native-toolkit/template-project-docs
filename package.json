@@ -1,0 +1,11 @@
+{
+  "name": "template-project-docs",
+  "version": "1.0.0",
+  "description": "Documentation for project",
+  "main": "index.js",
+  "scripts": {
+    "build": "./gradlew"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,55 @@
+import groovy.json.*
+buildscript {
+  dependencies {
+    classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
+  }
+}
+
+plugins {
+  id 'org.asciidoctor.convert' version '1.5.8.1'
+}
+
+String readValueFromPackageJson(String item) {
+  def jsonSlurper = new JsonSlurper()
+  def reader = new BufferedReader(new InputStreamReader(new FileInputStream("package.json"), "UTF-8"))
+  def data = jsonSlurper.parse(reader)
+  return data[item];
+}
+
+apply plugin: 'java'
+
+version = readValueFromPackageJson('version')
+
+asciidoctorj {
+  version = '1.5.5'
+}
+
+asciidoctor {
+  backends 'pdf', 'html5'
+
+  attributes 'build-gradle': file('build.gradle'),
+  'sourcedir': project.sourceSets.main.java.srcDirs[0],
+  'endpoint-url': 'http://example.org',
+  'source-highlighter': 'coderay',
+  'imagesdir': 'images',
+  'toc': 'left',
+  'icons': 'font',
+  'setanchors': '',
+  'idprefix': '',
+  'idseparator': '-',
+  'docinfo1': ''
+}
+
+task printName() {
+  doLast {
+    println project.name
+  }
+}
+
+task printVersion() {
+  doLast {
+    println project.version
+  }
+}
+
+defaultTasks 'asciidoctor'

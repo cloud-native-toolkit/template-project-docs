@@ -1,0 +1,16 @@
+{{- if .Values.configMap.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ include "template-project-docs.name" . }}-config
+    labels:
+        "app.kubernetes.io/name": {{ include "template-project-docs.name" . }}
+        "app.kubernetes.io/instance": {{ include "template-project-docs.name" . }}
+data:
+    CONFIG_MAILBOX_TO_MONITOR: {{ .Values.configMap.mailboxes | quote }}
+    GRAPH_API_TENANT_ID: {{ .Values.configMap.tenantId | quote }}
+    GRAPH_API_APP_ID: {{ .Values.configMap.appId | quote }}
+    GRAPH_API_SECRET_CLIENT_STATE: {{ .Values.configMap.clientState | quote }}
+    GRAPH_API_SUBSCRIPTION_NOTIFICATION_URL: {{ include "template-project-docs.url" . }}
+    AUTO_SUBSCRIBE: {{ .Values.configMap.autoSubscribe | quote }}
+{{- end}}

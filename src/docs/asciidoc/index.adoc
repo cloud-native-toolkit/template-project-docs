@@ -1,0 +1,12 @@
+= Project documentation
+:toc:
+:imagesdir: ./images
+ifdef::env-github,env-gitlab,env-browser[:outfilesuffix: .adoc]
+
+== Heading
+
+Heading text
+
+image::sunset.jpg[Alternate text]
+
+include::_sample-include.adoc[]

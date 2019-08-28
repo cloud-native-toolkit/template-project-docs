@@ -1,0 +1,31 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "template-project-docs.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "template-project-docs.name" . }}
+    helm.sh/chart: {{ include "template-project-docs.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ .Release.Name }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.ingress.tlsSecretName }}
+  tls:
+    - hosts:
+        - {{ include "template-project-docs.host" . }}
+      secretName: {{ .Values.ingress.tlsSecretName }}
+{{- end }}
+  rules:
+    - host: {{ include "template-project-docs.host" . }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: http
+{{- end }}

@@ -1,0 +1,4 @@
+
+=== Included heading
+
+This content should be included into other documents.
